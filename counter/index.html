@@ -7,9 +7,9 @@
 <body>
     <script type="text/javascript" src="elm.js"></script>
     <script>
-        const currentCount = localStorage.getItem('counter');
         const app = Elm.Main.fullscreen();
-        app.ports.storageInput.send(Number(currentCount));
+        const currentModel = localStorage.getItem('counter');
+        app.ports.storageInput.send(JSON.parse(currentModel));
 
 
         let incrementClickCount = 0;
@@ -20,7 +20,7 @@
                 incrementClickCount);
         });
         app.ports.storage.subscribe(function(data) {
-          localStorage.setItem('counter', data);
+          localStorage.setItem('counter', JSON.stringify(data));
         });
 
         window.app = app;

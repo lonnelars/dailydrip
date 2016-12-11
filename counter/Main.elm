@@ -10,10 +10,10 @@ port jsMsgs : (Int -> msg) -> Sub msg
 port increment : () -> Cmd msg
 
 
-port storage : Int -> Cmd msg
+port storage : Model -> Cmd msg
 
 
-port storageInput : (Int -> msg) -> Sub msg
+port storageInput : (Model -> msg) -> Sub msg
 
 
 type alias Model =
@@ -27,7 +27,7 @@ type Msg
     = Increment
     | Decrement
     | NoOp
-    | Set Int
+    | Set Model
 
 
 initialModel : Model
@@ -52,7 +52,7 @@ update msg model =
                 ( newModel
                 , Cmd.batch
                     [ increment ()
-                    , storage newModel.count
+                    , storage newModel
                     ]
                 )
 
@@ -65,14 +65,14 @@ update msg model =
                     }
             in
                 ( newModel
-                , storage newModel.count
+                , storage newModel
                 )
 
         NoOp ->
             ( model, Cmd.none )
 
-        Set newCount ->
-            ( { model | count = newCount }, Cmd.none )
+        Set newModel ->
+            ( newModel, Cmd.none )
 
 
 mapJsMsg : Int -> Msg

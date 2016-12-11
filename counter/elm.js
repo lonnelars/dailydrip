@@ -7916,7 +7916,7 @@ var _user$project$Main$increment = _elm_lang$core$Native_Platform.outgoingPort(
 var _user$project$Main$storage = _elm_lang$core$Native_Platform.outgoingPort(
 	'storage',
 	function (v) {
-		return v;
+		return {count: v.count, increment: v.increment, decrement: v.decrement};
 	});
 var _user$project$Main$update = F2(
 	function (msg, model) {
@@ -7936,7 +7936,7 @@ var _user$project$Main$update = F2(
 								{ctor: '_Tuple0'}),
 							_1: {
 								ctor: '::',
-								_0: _user$project$Main$storage(newModel.count),
+								_0: _user$project$Main$storage(newModel),
 								_1: {ctor: '[]'}
 							}
 						})
@@ -7948,21 +7948,33 @@ var _user$project$Main$update = F2(
 				return {
 					ctor: '_Tuple2',
 					_0: newModel,
-					_1: _user$project$Main$storage(newModel.count)
+					_1: _user$project$Main$storage(newModel)
 				};
 			case 'NoOp':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			default:
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{count: _p0._0}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
+				return {ctor: '_Tuple2', _0: _p0._0, _1: _elm_lang$core$Platform_Cmd$none};
 		}
 	});
-var _user$project$Main$storageInput = _elm_lang$core$Native_Platform.incomingPort('storageInput', _elm_lang$core$Json_Decode$int);
+var _user$project$Main$storageInput = _elm_lang$core$Native_Platform.incomingPort(
+	'storageInput',
+	A2(
+		_elm_lang$core$Json_Decode$andThen,
+		function (count) {
+			return A2(
+				_elm_lang$core$Json_Decode$andThen,
+				function (increment) {
+					return A2(
+						_elm_lang$core$Json_Decode$andThen,
+						function (decrement) {
+							return _elm_lang$core$Json_Decode$succeed(
+								{count: count, increment: increment, decrement: decrement});
+						},
+						A2(_elm_lang$core$Json_Decode$field, 'decrement', _elm_lang$core$Json_Decode$int));
+				},
+				A2(_elm_lang$core$Json_Decode$field, 'increment', _elm_lang$core$Json_Decode$int));
+		},
+		A2(_elm_lang$core$Json_Decode$field, 'count', _elm_lang$core$Json_Decode$int)));
 var _user$project$Main$Model = F3(
 	function (a, b, c) {
 		return {count: a, increment: b, decrement: c};
