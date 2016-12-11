@@ -1,0 +1,28 @@
+<html>
+
+<head>
+    <title>Elm Ports Counter Example</title>
+</head>
+
+<body>
+    <script type="text/javascript" src="elm.js"></script>
+    <script>
+        const currentCount = localStorage.getItem('counter');
+        const app = Elm.Main.fullscreen();
+        app.ports.storageInput.send(Number(currentCount));
+
+
+        let incrementClickCount = 0;
+        app.ports.increment.subscribe(function()
+        {
+            incrementClickCount += 1;
+            console.log('Increment has been clicked ' +
+                incrementClickCount);
+        });
+        app.ports.storage.subscribe(function(data) {
+          localStorage.setItem('counter', data);
+        });
+
+        window.app = app;
+    </script>
+</body>

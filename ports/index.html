@@ -1,0 +1,24 @@
+<h3>Elm app</h3>
+<div id="elmapp"></div>
+<h3>javascript</h3>
+<button id="jsbutton">send a value to elm</button>
+<ul id="mylist"></ul>
+<script src="elm.js"></script>
+<script>
+    var div = document.querySelector('#elmapp');
+    var app = Elm.Main.embed(div);
+
+    var btn = document.querySelector('#jsbutton');
+    btn.onclick = function()
+    {
+        app.ports.jsMsgs.send(1);
+    };
+
+    var ul = document.querySelector('#mylist');
+    app.ports.outbound.subscribe(function()
+    {
+        var li = document.createElement('li');
+        li.textContent = 'message received';
+        ul.appendChild(li);
+    });
+</script>

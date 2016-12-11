@@ -1,0 +1,20 @@
+{
+  "name": "todo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "chokidar '**/*.elm' -c 'elm make Main.elm'",
+    "serve:dev": "live-server --watch='./index.html'",
+    "dev": "concurrently 'npm run watch' 'npm run serve:dev'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "chokidar-cli": "^1.2.0",
+    "concurrently": "^3.1.0",
+    "live-server": "^1.1.0"
+  }
+}
